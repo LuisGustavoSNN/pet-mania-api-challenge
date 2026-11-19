@@ -1,86 +1,34 @@
-
 # Pet Mania API
 
-Projeto desenvolvido como parte da atividade prática de análise, diagnóstico, correção e teste de uma API RESTful utilizando **Java com Spring Boot** e **Spring Data JPA**.
+API para cadastrar, consultar e editar pets, feita em Java com Spring Boot e Spring Data JPA. A aplicação também inclui uma página para acessar essas operações pelo navegador.
 
-A aplicação tem como objetivo realizar o gerenciamento (CRUD) de animais de estimação para a plataforma **Pet Mania**, servindo como back-end para integração com uma aplicação front-end.
+## Como executar
 
-\---
-
-## Como Executar o Projeto
-
-1. **Clonar o repositório:**
+Use Java 21 ou superior. Clone o repositório e entre na pasta do projeto.
 
 ```bash
-   git clone https://github.com/LuisGustavoSNN/pet-mania-api-challenge
+git clone https://github.com/LuisGustavoSNN/pet-mania-api-challenge.git
+cd pet-mania-api-challenge
+```
 
-2. Configurar o banco de dados (application.properties):
+No Windows, execute `.\mvnw.cmd spring-boot:run`. No Linux ou macOS, execute `./mvnw spring-boot:run`.
 
-2. Configurar o banco de dados (application.properties):
-Garantir que as configurações no arquivo src/main/resources/application.properties estejam apontando corretamente para o banco (H2 em memória ou MySQL).
-3. Executar a aplicação:
+A página abre em `http://localhost:8080` e a API fica em `http://localhost:8080/api/pets`. Por padrão, os dados ficam em um arquivo H2. Para usar MySQL, ative o perfil `mysql` e configure a conexão em `src/main/resources/application-mysql.properties`.
 
-Pela sua IDE (IntelliJ IDEA, Eclipse, VS Code), execute a classe principal PetManiaApplication.java.
+Para executar os testes, use `.\mvnw.cmd test` no Windows ou `./mvnw test` no Linux ou macOS.
 
-Ou via terminal na raiz do projeto:
+## Endpoints da API
 
-**mvn spring-boot:run**
+| Método | Rota | Operação | Resposta |
+| --- | --- | --- | --- |
+| GET | `/api/pets` | Listar pets | `200 OK` |
+| GET | `/api/pets/{id}` | Buscar um pet | `200 OK` ou `404 Not Found` |
+| POST | `/api/pets` | Cadastrar um pet | `201 Created` ou `400 Bad Request` |
+| PUT | `/api/pets/{id}` | Editar um pet | `200 OK`, `400 Bad Request` ou `404 Not Found` |
 
-4. Acessar a API:
-A aplicação estará rodando no endereço: http://localhost:8080/api/pets
+### Exemplo de cadastro
 
-## Tecnologias Utilizadas
-
-* **Java 17+** (ou superior)
-* **Spring Boot 3. / 4.**
-* **Spring Data JPA**
-* **MySQL**
-* **Maven**
-* **Postman** (Testes de integração REST)
-
-\---
-
-## Diagnóstico e Correções Realizadas (Passo 2)
-
-Durante a análise inicial do projeto, foram identificados diversos problemas de sintaxe, estrutura e regras de negócio no ecossistema Spring Boot/JPA. Abaixo estão as principais correções efetuadas:
-
-### 1\. Entidade (`Pet.java`)
-
-* **Ajuste de Pacote:** Correção na sintaxe do `package`.
-* **Mapeamento de Chave Primária:** O atributo `nome` estava incorretamente anotado com `@Id` e `@GeneratedValue`. Foi criado o campo `Long id` para atuar como chave primária autoincrementada.
-* **Mapeamento JPA:** Adicionada a anotação `@Entity` e corrigida a sintaxe da anotação `@Table(name = "tb\_pet")`.
-* **Construtor Padrão:** Inclusão do construtor sem argumentos (`public Pet() {}`), requisito obrigatório do JPA.
-* **Tipagem de Atributos e Encapsulamento:** Correção de incompatividades nos métodos *Getters* e *Setters* (ex: idade declarada como `int` com getter retornando `String`).
-
-### 2\. Repositório (`PetRepository.java`)
-
-* **Generics e Tipos Wrapper:** Substituição da herança `CrudRepository<Pet, int>` por `JpaRepository<Pet, Long>`, corrigindo a utilização de tipo primitivo no ID.
-
-### 3\. Controller (`PetController.java`)
-
-* **Anotações de Mapeamento:** Correção de erros ortográficos (`@RequestMapping`) e remoção da rota de dentro do `@RestController`.
-* **Readequação de Verbos HTTP:**
-
-  * Reorganização dos métodos HTTP (`@GetMapping` para listagem e `@PostMapping` para criação).
-  * Adição da anotação `@RequestBody` no método de criação de pets.
-* **Implementação de Endpoints Faltantes:**
-
-  * Implementado o endpoint de busca por ID (`GET /api/pets/{id}`).
-* **Configuração de CORS:** Adicionada a anotação `@CrossOrigin("\*")` para permitir a comunicação com o front-end web.
-
-\---
-
-## Endpoints da API REST
-
-A API disponibiliza as seguintes rotas na rota base `/api/pets`:
-
-|Método|Endpoint|Descrição|Corpo da Requisição (JSON)|Status Esperado|
-|-|-|-|-|-|
-|**GET**|`/api/pets`|Listar todos os pets cadastrados|*Nenhum*|`200 OK`|
-|**GET**|`/api/pets/{id}`|Buscar pet específico por ID|*Nenhum*|`200 OK`|
-|**POST**|`/api/pets`|Cadastrar um novo pet|Exemplo abaixo|`200 OK` / `201 Created`|
-
-### Exemplo de JSON para Cadastro (`POST`):
+Envie o JSON para `POST /api/pets` com `Content-Type: application/json`.
 
 ```json
 {
@@ -91,20 +39,45 @@ A API disponibiliza as seguintes rotas na rota base `/api/pets`:
   "sexo": "Macho",
   "porte": "Grande",
   "personalidade": "Dócil e brincalhão",
-  "foto": "\[https://images.unsplash.com/photo-1552053831-71594a27632d](https://images.unsplash.com/photo-1552053831-71594a27632d)",
+  "foto": "",
   "disponivel": true
 }
 ```
 
-### Anexos de teste no POSTMAN ↓↓
+## Diagnóstico e Correções Realizadas (Passo 2)
 
+Durante a análise inicial do projeto, foram identificados diversos problemas de sintaxe, estrutura e regras de negócio no ecossistema Spring Boot/JPA. Abaixo estão as principais correções efetuadas:
 
+### 1. Entidade (`Pet.java`)
 
-## Post (Cadastro)
+* **Ajuste de Pacote:** Correção na sintaxe do `package`.
+* **Mapeamento de Chave Primária:** O atributo `nome` estava incorretamente anotado com `@Id` e `@GeneratedValue`. Foi criado o campo `Long id` para atuar como chave primária autoincrementada.
+* **Mapeamento JPA:** Adicionada a anotação `@Entity` e corrigida a sintaxe da anotação `@Table(name = "tb_pet")`.
+* **Construtor Padrão:** Inclusão do construtor sem argumentos (`public Pet() {}`), requisito obrigatório do JPA.
+* **Tipagem de Atributos e Encapsulamento:** Correção de incompatividades nos métodos *Getters* e *Setters* (ex: idade declarada como `int` com getter retornando `String`).
+
+### 2. Repositório (`PetRepository.java`)
+
+* **Generics e Tipos Wrapper:** Substituição da herança `CrudRepository<Pet, int>` por `JpaRepository<Pet, Long>`, corrigindo a utilização de tipo primitivo no ID.
+
+### 3. Controller (`PetController.java`)
+
+* **Anotações de Mapeamento:** Correção de erros ortográficos (`@RequestMapping`) e remoção da rota de dentro do `@RestController`.
+* **Readequação de Verbos HTTP:**
+
+  * Reorganização dos métodos HTTP (`@GetMapping` para listagem e `@PostMapping` para criação).
+  * Adição da anotação `@RequestBody` no método de criação de pets.
+* **Implementação de Endpoints Faltantes:**
+
+  * Implementado o endpoint de busca por ID (`GET /api/pets/{id}`).
+* **Configuração de CORS:** Adicionada a anotação `@CrossOrigin` para permitir a comunicação com o front-end web.
+
+## Testes no Postman
+
+### Cadastro
 
 <img width="1911" height="1006" alt="Captura de tela 2026-11-19 084608" src="https://github.com/user-attachments/assets/0a76a9db-335f-4040-80c7-5f068dce1d31" />
 
-
-## Get (Visualização)
+### Listagem
 
 <img width="1919" height="1005" alt="Captura de tela 2026-11-19 084953" src="https://github.com/user-attachments/assets/00aaa522-dbd4-405d-bd53-69337f14efc4" />
