@@ -70,7 +70,6 @@ Durante a análise inicial do projeto, foram identificados diversos problemas de
 * **Implementação de Endpoints Faltantes:**
 
   * Implementado o endpoint de busca por ID (`GET /api/pets/{id}`).
-* **Configuração de CORS:** Adicionada a anotação `@CrossOrigin` para permitir a comunicação com o front-end web.
 
 ## Testes no Postman
 
