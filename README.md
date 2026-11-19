@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/35099797/README.md)
+
 # Pet Mania API - Desafio Back-end Spring Boot
 
 Projeto desenvolvido como parte da atividade prática de análise, diagnóstico, correção e teste de uma API RESTful utilizando **Java com Spring Boot** e **Spring Data JPA**.
