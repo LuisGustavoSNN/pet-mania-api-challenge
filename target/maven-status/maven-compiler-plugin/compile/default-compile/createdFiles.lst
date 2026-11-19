@@ -1,0 +1,6 @@
+com\dt2\petmania\PetManiaApplication.class
+com\dt2\petmania\entities\enums\Sexo.class
+com\dt2\petmania\entities\Pet.class
+com\dt2\petmania\entities\enums\Porte.class
+com\dt2\petmania\repositories\PetRepository.class
+com\dt2\petmania\controllers\PetController.class

@@ -1,18 +1,10 @@
 package com.dt2.petmania.entities;
 
-import com.dt2.petmania.entities.enums.Porte;
-import com.dt2.petmania.entities.enums.Sexo;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_pet")
@@ -22,38 +14,21 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String nome;
-
-    @NotBlank
     private String especie;
-
     private String raca;
-
-    @Min(0)
     private int idade;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Sexo sexo;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Porte porte;
-
-    @Column(length = 1000)
+    private String sexo;
+    private String porte;
     private String personalidade;
-
-    @Column(length = 2048)
     private String foto;
-
     private boolean disponivel;
 
     public Pet() {
     }
 
-    public Pet(String nome, String especie, String raca, int idade, Sexo sexo,
-               Porte porte, String personalidade, String foto, boolean disponivel) {
+    public Pet(Long id, String nome, String especie, String raca, int idade, String sexo, String porte, String personalidade, String foto, boolean disponivel) {
+        this.id = id;
         this.nome = nome;
         this.especie = especie;
         this.raca = raca;
@@ -105,19 +80,19 @@ public class Pet {
         this.idade = idade;
     }
 
-    public Sexo getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(Sexo sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
-    public Porte getPorte() {
+    public String getPorte() {
         return porte;
     }
 
-    public void setPorte(Porte porte) {
+    public void setPorte(String porte) {
         this.porte = porte;
     }
 

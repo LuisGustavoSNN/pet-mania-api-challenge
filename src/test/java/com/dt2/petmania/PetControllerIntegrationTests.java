@@ -71,6 +71,7 @@ class PetControllerIntegrationTests {
         assertEquals(200, editado.statusCode());
         assertTrue(editado.body().contains("Brincalhona"));
         assertTrue(editado.body().contains("\"disponivel\":false"));
+
     }
 
     @Test
