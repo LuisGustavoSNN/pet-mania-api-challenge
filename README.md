@@ -1,5 +1,5 @@
 
-# Pet Mania API - Desafio Back-end Spring Boot
+# Pet Mania API
 
 Projeto desenvolvido como parte da atividade prática de análise, diagnóstico, correção e teste de uma API RESTful utilizando **Java com Spring Boot** e **Spring Data JPA**.
 
