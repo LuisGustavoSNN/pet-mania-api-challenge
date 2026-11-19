@@ -112,11 +112,6 @@
             color: #493700;
         }
 
-        .btn-delete {
-            background: #ff7777;
-            color: white;
-        }
-
         .pets-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -517,11 +512,6 @@
                                 ✏️ Editar
                             </button>
 
-                            <button class="btn btn-delete"
-                                onclick="excluirPet(${pet.id})">
-                                🗑️ Excluir
-                            </button>
-
                         </div>
 
                     </div>
@@ -652,40 +642,6 @@
 
         } catch (erro) {
 
-            mostrarMensagem(erro.message);
-
-        }
-
-    }
-
-    // DELETE - EXCLUIR PET
-    async function excluirPet(id) {
-
-        const confirmar = confirm(
-            "Tem certeza que deseja excluir este pet?"
-        );
-
-        if (!confirmar) {
-            return;
-        }
-
-        try {
-
-            const resposta = await fetch(`${API_URL}/${id}`, {
-                method: "DELETE"
-            });
-
-            if (!resposta.ok) {
-                throw new Error("Não foi possível excluir o pet.");
-            }
-
-            mostrarMensagem("Pet excluído com sucesso! 🐾");
-
-            listarPets();
-
-        } catch (erro) {
-
-            console.error(erro);
             mostrarMensagem(erro.message);
 
         }

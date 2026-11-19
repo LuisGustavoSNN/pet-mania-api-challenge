@@ -5,10 +5,10 @@ import com.dt2.petmania.repositories.PetRepository;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +23,8 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin
 public class PetController {
 
-    private final PetRepository repository;
-
-    public PetController(PetRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private PetRepository repository;
 
     @GetMapping
     public List<Pet> listar() {
@@ -62,12 +59,5 @@ public class PetController {
         pet.setFoto(dados.getFoto());
         pet.setDisponivel(dados.isDisponivel());
         return repository.save(pet);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        Pet pet = buscarPorId(id);
-        repository.delete(pet);
-        return ResponseEntity.noContent().build();
     }
 }

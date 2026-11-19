@@ -40,7 +40,7 @@ class PetControllerIntegrationTests {
     }
 
     @Test
-    void fluxoCompletoDeCadastroConsultaAtualizacaoExclusao() throws Exception {
+    void fluxoDeCadastroConsultaAtualizacao() throws Exception {
         HttpResponse<String> vazia = requisitar("GET", "/api/pets", null);
         assertEquals(200, vazia.statusCode());
         assertEquals("[]", vazia.body());
@@ -71,15 +71,11 @@ class PetControllerIntegrationTests {
         assertEquals(200, editado.statusCode());
         assertTrue(editado.body().contains("Brincalhona"));
         assertTrue(editado.body().contains("\"disponivel\":false"));
-
-        assertEquals(204, requisitar("DELETE", "/api/pets/" + id, null).statusCode());
-        assertEquals(404, requisitar("GET", "/api/pets/" + id, null).statusCode());
     }
 
     @Test
     void petInexistenteERespostaInvalida() throws Exception {
         assertEquals(404, requisitar("GET", "/api/pets/9999999", null).statusCode());
-        assertEquals(404, requisitar("DELETE", "/api/pets/9999999", null).statusCode());
 
         String invalido = """
                 {"nome":"","especie":"Cachorro","idade":-1,
